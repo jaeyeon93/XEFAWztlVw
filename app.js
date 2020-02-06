@@ -10,8 +10,7 @@ const openBrowser = async () => {
   const context = await browser.newContext();
   const page = await context.newPage(`${process.env.GITHUB}`);
   await login(page, `${process.env.ID}`, `${process.env.PW}`);
-  await page.screenshot({path: `screenshot.png`});
-  await browser.close();
+  // await browser.close();
 };
 
 const login = async (page ,id, pw) => {
@@ -22,11 +21,23 @@ const login = async (page ,id, pw) => {
       document.querySelector('#login_field').value = id;
       document.querySelector('#password').value = pw;
     }, id, pw).then(() => page.click('#login > form > div.auth-form-body.mt-3 > input.btn.btn-primary.btn-block'));
-    await page.screenshot({path: `login.png`});
-    return page;
+
+    const login_valid = await checkLoginValid(page.url());
+    if (login_valid)
+      return page;
+    else {
+      // 예외처리 필요.
+      console.log(`로그인실패`);
+    }
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+const checkLoginValid = async (url) => {
+  if (url === process.env.GITHUB)
+    return true;
+  return false;
+};
 
 openBrowser();
