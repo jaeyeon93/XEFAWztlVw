@@ -1,13 +1,15 @@
 import {chromium} from 'playwright';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const openBrowser = async () => {
   const browser = await chromium.launch({
     headless: false
   });
   const context = await browser.newContext();
-  const page = await context.newPage('https://www.github.com/');
-  await login(page, 'id', 'pw@');
-  console.log(`login function closed`);
+  const page = await context.newPage(`${process.env.GITHUB}`);
+  await login(page, `${process.env.ID}`, `${process.env.PW}`);
   await page.screenshot({path: `screenshot.png`});
   await browser.close();
 };
