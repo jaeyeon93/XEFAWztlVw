@@ -5,7 +5,7 @@ dotenv.config();
 
 const openBrowser = async () => {
   const browser = await chromium.launch({
-    headless: false
+    headless: false,
   });
   const context = await browser.newContext();
   const page = await context.newPage(`${process.env.GITHUB}`);
@@ -13,7 +13,7 @@ const openBrowser = async () => {
   // await browser.close();
 };
 
-const login = async (page ,id, pw) => {
+const login = async (page, id, pw) => {
   try {
     await page.click('body > div.position-relative.js-header-wrapper > header > div > div.d-flex.flex-justify-between.flex-items-center > div.d-flex.flex-items-center > button');
     await page.click('body > div.position-relative.js-header-wrapper > header > div > div.HeaderMenu.HeaderMenu--logged-out.position-fixed.top-0.right-0.bottom-0.height-fit.position-lg-relative.d-lg-flex.flex-justify-between.flex-items-center.flex-auto > div.d-lg-flex.flex-items-center.px-3.px-lg-0.text-center.text-lg-left > a.HeaderMenu-link.no-underline.mr-3');
@@ -22,10 +22,10 @@ const login = async (page ,id, pw) => {
       document.querySelector('#password').value = pw;
     }, id, pw).then(() => page.click('#login > form > div.auth-form-body.mt-3 > input.btn.btn-primary.btn-block'));
 
-    const login_valid = await checkLoginValid(page.url());
-    if (login_valid)
+    const loginValid = await checkLoginValid(page.url());
+    if (loginValid) {
       return page;
-    else {
+    } else {
       // 예외처리 필요.
       console.log(`로그인실패`);
     }
@@ -35,8 +35,9 @@ const login = async (page ,id, pw) => {
 };
 
 const checkLoginValid = async (url) => {
-  if (url === process.env.GITHUB)
+  if (url === process.env.GITHUB) {
     return true;
+  }
   return false;
 };
 
