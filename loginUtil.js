@@ -31,4 +31,4 @@ const checkLoginValid = async (url) => {
 
 module.exports = {
   login: loginUtil,
-}
+};
