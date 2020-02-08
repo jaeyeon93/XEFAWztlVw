@@ -1,5 +1,4 @@
 const findIssueTab = async (page) => {
-  console.log(`findIssueTab method called current URL : ${page.url()}`);
   try {
     await page.click('#js-repo-pjax-container > div.pagehead.repohead.readability-menu.bg-gray-light.pb-0.pt-3.pb-0 > nav > span:nth-child(2) > a');
     return page;
