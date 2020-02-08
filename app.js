@@ -2,13 +2,15 @@ import {chromium} from 'playwright';
 import dotenv from 'dotenv';
 import loginUtil from './loginUtil';
 import searchUtil from './searchUtil';
+import addUtil from './addUtil';
 
 dotenv.config();
 
 const app = async () => {
   const page = await openBrowser();
   const loginResult = await loginUtil.login(page, `${process.env.ID}`, `${process.env.PW}`);
-  await searchUtil.searchRepo(loginResult, `${process.env.REPO}`);
+  const helpmeRepoPage = await searchUtil.searchRepo(loginResult, `${process.env.REPO}`);
+  await addUtil.addIssueOnRepo(helpmeRepoPage, 'reactoring');
 };
 const openBrowser = async () => {
   const browser = await chromium.launch({
