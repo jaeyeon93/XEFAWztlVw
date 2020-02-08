@@ -1,3 +1,6 @@
+import * as Sentry from '@sentry/node';
+Sentry.init({dsn: `${process.env.SENTRY_DSN}`});
+
 const searchRepo = async (page, repoName) => {
   try {
     await page.click('body > div.position-relative.js-header-wrapper > header > div:nth-child(2) > button');
@@ -7,7 +10,9 @@ const searchRepo = async (page, repoName) => {
     const searchResultPage = await searchRepoAllGithub(page);
     return selectRepoOnResultPage(searchResultPage);
   } catch (err) {
-    console.log(err);
+    Sentry.captureException(err);
+    Sentry.flush(2000);
+    return err;
   }
 };
 
@@ -17,7 +22,9 @@ const searchRepoAllGithub = async (page) => {
     await page.click('#jump-to-suggestion-search-global > a > div.jump-to-suggestion-name.js-jump-to-suggestion-name.flex-auto.overflow-hidden.text-left.no-wrap.css-truncate.css-truncate-target');
     return page;
   } catch (err) {
-    console.log(err);
+    Sentry.captureException(err);
+    Sentry.flush(2000);
+    return err;
   }
 };
 
@@ -26,7 +33,9 @@ const selectRepoOnResultPage = async (resultPage) => {
     await resultPage.click('#js-pjax-container > div > div.col-12.col-md-9.float-left.px-2.pt-3.pt-md-0.codesearch-results > div > ul > li > div.mt-n1 > div.f4.text-normal > a');
     return resultPage;
   } catch (err) {
-    console.log(err);
+    Sentry.captureException(err);
+    Sentry.flush(2000);
+    return err;
   }
 };
 
