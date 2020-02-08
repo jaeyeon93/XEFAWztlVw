@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-const loginUtil = async (page, id, pw) => {
+const login = async (page, id, pw) => {
   try {
     await page.click('header div.d-flex.flex-justify-between.flex-items-center > div.d-flex.flex-items-center > button');
     await page.click('header > div > div.HeaderMenu.HeaderMenu--logged-out.position-fixed.top-0.right-0.bottom-0.height-fit.position-lg-relative.d-lg-flex.flex-justify-between.flex-items-center.flex-auto > div.d-lg-flex.flex-items-center.px-3.px-lg-0.text-center.text-lg-left > a.HeaderMenu-link.no-underline.mr-3');
@@ -13,7 +13,7 @@ const loginUtil = async (page, id, pw) => {
     if (loginValid) {
       return page;
     } else {
-      console.log(`로그인실패`);
+      // throw new Error('로그인에 실패했습니다');
       return page.goto(loginUrl);
     }
   } catch (error) {
@@ -29,5 +29,5 @@ const checkLoginValid = async (url) => {
 };
 
 module.exports = {
-  login: loginUtil,
+  login,
 };
