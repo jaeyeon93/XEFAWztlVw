@@ -9,8 +9,8 @@ const findIssueTab = async (page) => {
 
 const addNewIssue = async (page, title, comment) => {
   try {
+    await page.waitForSelector('body');
     await page.click('#js-repo-pjax-container > div.container-lg.clearfix.new-discussion-timeline.p-responsive > div > div > div.d-flex.flex-justify-between.mb-md-3.flex-column-reverse.flex-md-row.flex-items-end > div.ml-3.d-flex.flex-justify-between.width-full.width-md-auto > a');
-    await page.waitForSelector('#issue_title');
     await page.type('#issue_title', title);
     await page.type('#issue_body', comment, {delay: 10});
     await page.click('#new_issue > div > div.col-md-9.col-sm-12 > div > div.timeline-comment > div.flex-items-center.flex-justify-end.mx-2.mb-2.px-0.d-none.d-md-flex > button.btn.btn-primary');
@@ -20,7 +20,12 @@ const addNewIssue = async (page, title, comment) => {
   }
 };
 
+const addIssueOnRepo = async (page, title) => {
+  const helpmeRepo = page.url();
+  await addNewIssue(await findIssueTab(page), title, helpmeRepo);
+  return page;
+};
+
 module.exports = {
-  findIssueTab,
-  addNewIssue,
+  addIssueOnRepo,
 };
