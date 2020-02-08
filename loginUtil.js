@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
+import * as Sentry from '@sentry/node';
 dotenv.config();
 
+Sentry.init({dsn: `${process.env.SENTRY_DSN}`})
 const loginUtil = async (page, id, pw) => {
   try {
     await page.click('header div.d-flex.flex-justify-between.flex-items-center > div.d-flex.flex-items-center > button');
@@ -14,11 +16,12 @@ const loginUtil = async (page, id, pw) => {
     if (loginValid) {
       return page;
     } else {
-      // 예외처리 필요.
-      console.log(`로그인실패`);
+      throw new Error(`loginValid에서 발생한 에러`);
     }
   } catch (error) {
-    console.log(error);
+    Sentry.captureException(error);
+    await Sentry.flush(2000);
+    return error;
   }
 };
 
