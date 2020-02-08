@@ -8,11 +8,9 @@ dotenv.config();
 
 describe('#Login Test', () => {
   let page;
+  let browser;
   beforeEach(async () => {
-    console.log(`before start`);
-    const browser = await chromium.launch({
-      headless: false,
-    });
+    browser = await chromium.launch();
     const context = await browser.newContext();
     page = await context.newPage(`${process.env.GITHUB}`);
     return page;
@@ -34,7 +32,6 @@ describe('#Login Test', () => {
   });
 
   afterEach(async () => {
-    console.log(`after part`);
-    page.close();
+    browser.close();
   });
 });
