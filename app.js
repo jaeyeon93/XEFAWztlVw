@@ -9,8 +9,8 @@ dotenv.config();
 const app = async () => {
   const page = await openBrowser();
   const loginResult = await loginUtil.login(page, `${process.env.ID}`, `${process.env.PW}`);
-  const helpmeRepoPage = await searchUtil.searchRepo(loginResult, `${process.env.REPO}`);
-  await addUtil.addIssueOnRepo(helpmeRepoPage, 'reactoring');
+  // const helpmeRepoPage = await searchUtil.searchRepo(loginResult, `${process.env.REPO}`);
+  // await addUtil.addIssueOnRepo(helpmeRepoPage, 'reactoring');
 };
 const openBrowser = async () => {
   const browser = await chromium.launch({
