@@ -8,7 +8,7 @@ dotenv.config();
 
 describe('#Login Test', () => {
   let page;
-  before(async () => {
+  beforeEach(async () => {
     console.log(`before start`);
     const browser = await chromium.launch({
       headless: false,
@@ -19,10 +19,14 @@ describe('#Login Test', () => {
   });
 
   it('login failed', async () => {
-    const result = await loginUtil.login(page, `${process.env.ID}`, `${process.env.PW}`);
-    const currentUrl = await result.url();
-    console.log(currentUrl)
+    const failLogin = await loginUtil.login(page, `${process.env.ID}`, `${process.env.FAIL_PW}`);
+    const currentUrl = await failLogin.url();
     assert.equal(currentUrl, 'https://github.com/login');
+  });
+
+  it('login success', async () => {
+    const successLogin = await loginUtil.login(page, `${process.env.ID}`, `${process.env.PW}`);
+    assert.equal(await successLogin.url(), 'https://github.com/');
   });
 
   after(async () => {
