@@ -8,12 +8,13 @@ const loginUtil = async (page, id, pw) => {
     await page.type('#login_field', id);
     await page.type('#password', pw);
     await page.click('#login > form > div.auth-form-body.mt-3 > input.btn.btn-primary.btn-block');
-    const loginValid = await checkLoginValid(page.url());
+    const loginUrl = page.url();
+    const loginValid = await checkLoginValid(loginUrl);
     if (loginValid) {
       return page;
     } else {
-      // 예외처리 필요.
       console.log(`로그인실패`);
+      return page.goto(loginUrl);
     }
   } catch (error) {
     console.log(error);
