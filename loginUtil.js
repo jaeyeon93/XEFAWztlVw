@@ -21,7 +21,7 @@ const login = async (page, id, pw) => {
   }
 };
 
-const checkLoginValid = async (url) => {
+const checkLoginValid = (url) => {
   if (url === process.env.GITHUB) {
     return true;
   }
@@ -30,4 +30,5 @@ const checkLoginValid = async (url) => {
 
 module.exports = {
   login,
+  checkLoginValid,
 };

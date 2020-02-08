@@ -29,7 +29,11 @@ describe('#Login Test', () => {
     assert.equal(await successLogin.url(), 'https://github.com/');
   });
 
-  after(async () => {
+  it('login validate test', () => {
+    assert(loginUtil.checkLoginValid('https://github.com/'), true);
+  });
+
+  afterEach(async () => {
     console.log(`after part`);
     page.close();
   });
