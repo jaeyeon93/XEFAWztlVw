@@ -15,8 +15,7 @@ const login = async (page, id, pw) => {
       return page;
     } else {
       throw new Error(`loginValid에서 발생한 에러`);
-      // throw new Error('로그인에 실패했습니다');
-      return page.goto(loginUrl);
+      // return page.goto(loginUrl);
     }
   } catch (error) {
     return await logging.captureError(error);

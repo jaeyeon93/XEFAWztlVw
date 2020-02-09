@@ -8,13 +8,15 @@ import addUtil from './addUtil';
 dotenv.config();
 
 const app = async () => {
+  const page = await openBrowser();
   try {
-    const page = await openBrowser();
     const loginResult = await loginUtil.login(page, `${process.env.ID}`, `${process.env.PW}`);
     const helpmeRepoPage = await searchUtil.searchRepo(loginResult, `${process.env.REPO}`);
-    await addUtil.addIssueOnRepo(helpmeRepoPage, 'reactoring');
+    const issuePage = await addUtil.addIssueOnRepo(helpmeRepoPage, 'reactoring');
+    await issuePage.close();
   } catch (error) {
-    return await logging.captureError(error);
+    await logging.captureError(error);
+  } finally {
     page.close();
   }
 };
