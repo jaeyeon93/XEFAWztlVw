@@ -26,7 +26,7 @@ const openBrowser = async () => {
     const browser = await chromium.launch({
       headless: false,
     });
-    const context = await browser.newContext();
+    const context = await browser.defaultContext();
     const page = await context.newPage(`${process.env.GITHUB}`);
     return page;
   } catch (error) {
