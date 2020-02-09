@@ -1,5 +1,4 @@
-import * as Sentry from '@sentry/node';
-Sentry.init({dsn: `${process.env.SENTRY_DSN}`});
+import logging from './logging';
 
 const searchRepo = async (page, repoName) => {
   try {
@@ -10,9 +9,7 @@ const searchRepo = async (page, repoName) => {
     const searchResultPage = await searchRepoAllGithub(page);
     return selectRepoOnResultPage(searchResultPage);
   } catch (err) {
-    Sentry.captureException(err);
-    Sentry.flush(2000);
-    return err;
+    return await logging.captureError(error);
   }
 };
 
@@ -22,9 +19,7 @@ const searchRepoAllGithub = async (page) => {
     await page.click('#jump-to-suggestion-search-global > a > div.jump-to-suggestion-name.js-jump-to-suggestion-name.flex-auto.overflow-hidden.text-left.no-wrap.css-truncate.css-truncate-target');
     return page;
   } catch (err) {
-    Sentry.captureException(err);
-    Sentry.flush(2000);
-    return err;
+    return await logging.captureError(error);
   }
 };
 
@@ -33,9 +28,7 @@ const selectRepoOnResultPage = async (resultPage) => {
     await resultPage.click('#js-pjax-container > div > div.col-12.col-md-9.float-left.px-2.pt-3.pt-md-0.codesearch-results > div > ul > li > div.mt-n1 > div.f4.text-normal > a');
     return resultPage;
   } catch (err) {
-    Sentry.captureException(err);
-    Sentry.flush(2000);
-    return err;
+    return await logging.captureError(error);
   }
 };
 

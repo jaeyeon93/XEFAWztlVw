@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import * as Sentry from '@sentry/node';
+import logging from 'logging';
 dotenv.config();
 
 Sentry.init({dsn: `${process.env.SENTRY_DSN}`})
@@ -19,9 +19,7 @@ const loginUtil = async (page, id, pw) => {
       throw new Error(`loginValid에서 발생한 에러`);
     }
   } catch (error) {
-    Sentry.captureException(error);
-    await Sentry.flush(2000);
-    return error;
+    return await logging.captureError(error);
   }
 };
 

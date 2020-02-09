@@ -6,7 +6,7 @@
   "scripts": {
     "start": "babel-node app.js",
     "lint": "eslint --fix .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --require babel-core/register test --timeout 12000 ./test/loginTest.js"
   },
   "keywords": [],
   "author": "",

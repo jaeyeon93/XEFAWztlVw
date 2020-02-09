@@ -2,8 +2,7 @@ import {chromium} from 'playwright';
 import dotenv from 'dotenv';
 import loginUtil from './loginUtil';
 import searchUtil from './searchUtil';
-import * as Sentry from '@sentry/node';
-Sentry.init({dsn: `${process.env.SENTRY_DSN}`});
+import logging from './logging';
 dotenv.config();
 
 const app = async () => {
@@ -12,9 +11,7 @@ const app = async () => {
     const loginResult = await loginUtil.login(page, `${process.env.ID}`, `${process.env.PW}`);
     await searchUtil.searchRepo(loginResult, `${process.env.REPO}`);
   } catch (error) {
-    Sentry.captureException(err);
-    Sentry.flush(2000);
-    return err;
+    return await logging.captureError(error);
   }
 };
 
@@ -27,9 +24,7 @@ const openBrowser = async () => {
     const page = await context.newPage(`${process.env.GITHUB}`);
     return page;
   } catch (error) {
-    Sentry.captureException(err);
-    Sentry.flush(2000);
-    return err;
+    return await logging.captureError(error);
   }
 };
 
