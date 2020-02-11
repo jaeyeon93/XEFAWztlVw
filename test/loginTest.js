@@ -18,8 +18,8 @@ describe('#Login Test', () => {
 
   it('login failed', async () => {
     const failLogin = await loginUtil.login(page, `${process.env.ID}`, `${process.env.FAIL_PW}`);
-    const currentUrl = await failLogin.url();
-    assert.equal(currentUrl, 'https://github.com/login');
+    console.log(typeof await loginUtil.login());
+    assert.throw(failLogin, Error,`Login is Failed`);
   });
 
   it('login success', async () => {
