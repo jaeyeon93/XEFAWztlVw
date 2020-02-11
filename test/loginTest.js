@@ -9,26 +9,23 @@ dotenv.config();
 describe('#Login Test', () => {
   let page;
   let browser;
-  // before(async () => {
-  //   browser = await chromium.launch();
-  //   const context = await browser.defaultContext();
-  //   page = await context.newPage(`${process.env.GITHUB}`);
-  //   return page;
-  // });
-
-  it('login success', async () => {
+  before(async () => {
     browser = await chromium.launch();
     const context = await browser.defaultContext();
     page = await context.newPage(`${process.env.GITHUB}`);
+    return page;
+  });
+
+  it('login success', async () => {
     const successLogin = await loginUtil.login(page, `${process.env.ID}`, `${process.env.PW}`);
     assert.equal(successLogin.url(), 'https://github.com/');
   });
 
-  // it('login validate test', () => {
-  //   assert(loginUtil.checkLoginValid('https://github.com/'), true);
-  // });
+  it('login validate test', () => {
+    assert(loginUtil.checkLoginValid('https://github.com/'), true);
+  });
 
-  // after(async () => {
-  //   browser.close();
-  // });
+  after(async () => {
+    browser.close();
+  });
 });
