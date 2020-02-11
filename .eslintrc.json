@@ -13,6 +13,7 @@
         "sourceType": "module"
     },
     "rules": {
-        "max-len": "off"
+        "max-len": "off",
+        "no-unused-vars": "off"
     }
 }

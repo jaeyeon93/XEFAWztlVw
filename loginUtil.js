@@ -31,4 +31,4 @@ const checkLoginValid = (url) => {
 module.exports = {
   login,
   checkLoginValid,
-}
+};
