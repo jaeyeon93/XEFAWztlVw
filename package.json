@@ -15,6 +15,7 @@
     "playwright": "^0.10.0"
   },
   "devDependencies": {
+    "@sentry/node": "^5.12.3",
     "babel-cli": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",

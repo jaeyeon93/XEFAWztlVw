@@ -2,28 +2,36 @@ import {chromium} from 'playwright';
 import dotenv from 'dotenv';
 import loginUtil from './loginUtil';
 import searchUtil from './searchUtil';
+import logging from './logging';
 import addUtil from './addUtil';
 
 dotenv.config();
 
 const app = async () => {
+  const page = await openBrowser();
   try {
-    const page = await openBrowser();
     const loginResult = await loginUtil.login(page, `${process.env.ID}`, `${process.env.PW}`);
     const helpmeRepoPage = await searchUtil.searchRepo(loginResult, `${process.env.REPO}`);
-    await addUtil.addIssueOnRepo(helpmeRepoPage, 'reactoring');
+    const issuePage = await addUtil.addIssueOnRepo(helpmeRepoPage, 'reactoring');
+    await issuePage.close();
   } catch (error) {
-    console.log(error);
+    await logging.captureError(error);
+  } finally {
     page.close();
   }
 };
+
 const openBrowser = async () => {
-  const browser = await chromium.launch({
-    headless: false,
-  });
-  const context = await browser.newContext();
-  const page = await context.newPage(`${process.env.GITHUB}`);
-  return page;
+  try {
+    const browser = await chromium.launch({
+      headless: false,
+    });
+    const context = await browser.defaultContext();
+    const page = await context.newPage(`${process.env.GITHUB}`);
+    return page;
+  } catch (error) {
+    return await logging.captureError(error);
+  }
 };
 
 app();

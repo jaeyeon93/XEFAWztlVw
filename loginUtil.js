@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import logging from './logging';
 dotenv.config();
 
 const login = async (page, id, pw) => {
@@ -13,11 +14,10 @@ const login = async (page, id, pw) => {
     if (loginValid) {
       return page;
     } else {
-      // throw new Error('로그인에 실패했습니다');
-      return page.goto(loginUrl);
+      throw new Error(`Login is Failed`);
     }
   } catch (error) {
-    console.log(error);
+    return await logging.captureError(error);
   }
 };
 
@@ -31,4 +31,4 @@ const checkLoginValid = (url) => {
 module.exports = {
   login,
   checkLoginValid,
-};
+}
