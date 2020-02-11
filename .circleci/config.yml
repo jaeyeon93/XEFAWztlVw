@@ -3,10 +3,16 @@ jobs:
   build:
     docker:
       - image: circleci/node:7.10
+        environment:
+          ENFILE: $ENFILE
     working_directory: ~/XEFAWztlVw/.circleci/config.yml
     steps:
       - checkout
       - setup_remote_docker
-      - run: npm run install
+      - run: echo hello world
+      - run: echo -e $ENVFILE >> .env
+      - run: ls
+      - run: echo .env
+      - run: npm install
       - run: npm run lint
       - run: npm run test
