@@ -11,7 +11,7 @@ describe('#Login Test', () => {
   let browser;
   beforeEach(async () => {
     browser = await chromium.launch();
-    const context = await browser.newContext();
+    const context = await browser.defaultContext();
     page = await context.newPage(`${process.env.GITHUB}`);
     return page;
   });
