@@ -9,7 +9,7 @@ dotenv.config();
 describe('#Login Test', () => {
   let page;
   let browser;
-  beforeEach(async () => {
+  before(async () => {
     browser = await chromium.launch();
     const context = await browser.defaultContext();
     page = await context.newPage(`${process.env.GITHUB}`);
@@ -21,11 +21,11 @@ describe('#Login Test', () => {
     assert.equal(successLogin.url(), 'https://github.com/');
   });
 
-  it('login validate test', () => {
-    assert(loginUtil.checkLoginValid('https://github.com/'), true);
-  });
+  // it('login validate test', () => {
+  //   assert(loginUtil.checkLoginValid('https://github.com/'), true);
+  // });
 
-  afterEach(async () => {
+  after(async () => {
     browser.close();
   });
 });
