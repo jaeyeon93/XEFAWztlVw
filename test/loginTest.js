@@ -18,7 +18,7 @@ describe('#Login Test', () => {
 
   it('login success', async () => {
     const successLogin = await loginUtil.login(page, `${process.env.ID}`, `${process.env.PW}`);
-    assert.equal(await successLogin.url(), 'https://github.com/');
+    assert.equal(successLogin.url(), 'https://github.com/');
   });
 
   it('login validate test', () => {
