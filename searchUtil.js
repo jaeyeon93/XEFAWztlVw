@@ -3,9 +3,7 @@ import logging from './logging';
 const searchRepo = async (page, repoName) => {
   try {
     await page.click('body > div.position-relative.js-header-wrapper > header > div:nth-child(2) > button');
-    await page.evaluate((repo) => {
-      document.querySelector('body > div.position-relative.js-header-wrapper > header > div.Header-item.Header-item--full.flex-column.flex-lg-row.width-full.flex-order-2.flex-lg-order-none.mr-0.mr-lg-3.mt-3.mt-lg-0.Details-content--hidden > div > div > form > label > input.form-control.input-sm.header-search-input.jump-to-field.js-jump-to-field.js-site-search-focus').value = repo;
-    }, repoName);
+    await page.type('body > div.position-relative.js-header-wrapper > header > div.Header-item.Header-item--full.flex-column.flex-lg-row.width-full.flex-order-2.flex-lg-order-none.mr-0.mr-lg-3.mt-3.mt-lg-0.Details-content--hidden > div > div > form > label > input.form-control.input-sm.header-search-input.jump-to-field.js-jump-to-field.js-site-search-focus', repoName);
     const searchResultPage = await searchRepoAllGithub(page);
     return selectRepoOnResultPage(searchResultPage);
   } catch (err) {
