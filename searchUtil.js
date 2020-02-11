@@ -25,9 +25,7 @@ const searchRepoAllGithub = async (page) => {
 const selectRepoOnResultPage = async (resultPage) => {
   try {
     await resultPage.waitForSelector('.repo-list').then(() => console.log(`repo-list loaded`));
-    const list = await resultPage.$$('.repo-list-item');
-    console.log(list[0]);
-    console.log(list.length);
+    // const list = Array.from(await resultPage.$$('.v-align-middle'));
     await resultPage.click('#js-pjax-container > div > div.col-12.col-md-9.float-left.px-2.pt-3.pt-md-0.codesearch-results > div > ul > li > div.mt-n1 > div.f4.text-normal > a');
     return resultPage;
   } catch (err) {
@@ -38,5 +36,3 @@ const selectRepoOnResultPage = async (resultPage) => {
 module.exports = {
   searchRepo,
 };
-
-// .repo-list-item

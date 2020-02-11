@@ -11,14 +11,14 @@ const app = async () => {
   const page = await openBrowser();
   try {
     const loginResult = await loginUtil.login(page, `${process.env.ID}`, `${process.env.PW}`);
-    const helpmeRepoPage = await searchUtil.searchRepo(loginResult, `${process.env.REPO_MANY}`);
-    // const helpmeRepoPage = await searchUtil.searchRepo(loginResult, `${process.env.REPO}`);
-    // const issuePage = await addUtil.addIssueOnRepo(helpmeRepoPage, 'reactoring');
-    // await issuePage.close();
+    const helpmeRepoPage = await searchUtil.searchRepo(loginResult, `${process.env.REPO}`);
+    const issuePage = await addUtil.addIssueOnRepo(helpmeRepoPage, 'chromium');
+    await issuePage.wait(1000);
+    await issuePage.close();
   } catch (error) {
     await logging.captureError(error);
   } finally {
-    // page.close();
+    await page.close();
   }
 };
 
