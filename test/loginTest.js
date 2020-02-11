@@ -9,29 +9,23 @@ dotenv.config();
 describe('#Login Test', () => {
   let page;
   let browser;
-  beforeEach(async () => {
+  before(async () => {
     browser = await chromium.launch();
-    const context = await browser.newContext();
+    const context = await browser.defaultContext();
     page = await context.newPage(`${process.env.GITHUB}`);
     return page;
   });
 
-  it('login failed', async () => {
-    const failLogin = await loginUtil.login(page, `${process.env.ID}`, `${process.env.FAIL_PW}`);
-    console.log(typeof await loginUtil.login());
-    assert.throw(failLogin, Error,`Login is Failed`);
-  });
-
   it('login success', async () => {
     const successLogin = await loginUtil.login(page, `${process.env.ID}`, `${process.env.PW}`);
-    assert.equal(await successLogin.url(), 'https://github.com/');
+    assert.equal(successLogin.url(), 'https://github.com/');
   });
 
   it('login validate test', () => {
     assert(loginUtil.checkLoginValid('https://github.com/'), true);
   });
 
-  afterEach(async () => {
+  after(async () => {
     browser.close();
   });
 });
